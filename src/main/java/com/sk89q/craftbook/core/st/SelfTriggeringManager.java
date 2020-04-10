@@ -109,6 +109,9 @@ public class SelfTriggeringManager implements Listener {
             try {
                 SelfTriggerThinkEvent event = new SelfTriggerThinkEvent(location.getBlock());
                 Bukkit.getServer().getPluginManager().callEvent(event);
+                if(event.isCancelled()){
+                    return;
+                }
                 if(!event.isHandled()) {
                     unregisterSelfTrigger(location, UnregisterReason.NOT_HANDLED);
                 }
