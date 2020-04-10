@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.pipe;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.AbstractCraftBookMechanic;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.CraftBookPlayer;
@@ -472,6 +473,10 @@ public class Pipes extends AbstractCraftBookMechanic {
                 return;
 
             if(!EventUtil.passesFilter(event)) return;
+
+            if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                return;
+            }
 
             startPipe(event.getBlock(), new ArrayList<>(), false);
         }

@@ -1,6 +1,7 @@
 package com.sk89q.craftbook.mechanics;
 
 import com.google.common.collect.Lists;
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.AbstractCraftBookMechanic;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.CraftBookPlayer;
@@ -202,7 +203,9 @@ public class BetterPistons extends AbstractCraftBookMechanic {
 
         for(Tuple2<Types, Block> tups : types) {
             ChangedSign signState = CraftBookBukkitUtil.toChangedSign(tups.b);
-
+            if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                return;
+            }
             switch (tups.a) {
                 case CRUSH:
                     if (event.getNewCurrent() > event.getOldCurrent()) {
