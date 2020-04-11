@@ -1,6 +1,5 @@
 package com.sk89q.craftbook.core.st;
 
-import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
 import com.sk89q.craftbook.util.EventUtil;
@@ -108,9 +107,6 @@ public class SelfTriggeringManager implements Listener {
                 continue;
             }
             try {
-                if(!Limiter.ping(location,this.getClass())){
-                    return;
-                }
                 SelfTriggerThinkEvent event = new SelfTriggerThinkEvent(location.getBlock());
                 Bukkit.getServer().getPluginManager().callEvent(event);
                 if(event.isCancelled()){
