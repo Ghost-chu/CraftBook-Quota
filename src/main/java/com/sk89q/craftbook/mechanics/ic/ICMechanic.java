@@ -16,7 +16,6 @@
 
 package com.sk89q.craftbook.mechanics.ic;
 
-import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.AbstractCraftBookMechanic;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.CraftBookPlayer;
@@ -215,9 +214,6 @@ public class ICMechanic extends AbstractCraftBookMechanic {
             // abort if the sign is the source or the block the sign is attached to
             if (SignUtil.getBackBlock(block).equals(source) || block.equals(source)) return;
 
-            if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
-                return;
-            }
             Runnable runnable = () -> {
 
                 if (!SignUtil.isWallSign(block)) return;

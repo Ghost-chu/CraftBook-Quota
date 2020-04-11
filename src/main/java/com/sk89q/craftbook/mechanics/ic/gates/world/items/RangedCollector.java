@@ -152,7 +152,7 @@ public class RangedCollector extends AbstractSelfTriggeredIC {
             }
         }
 
-        if (!itemsForChest.isEmpty()) {
+         if (!itemsForChest.isEmpty()) {
             if(!InventoryUtil.doesBlockHaveInventory(chest))
                 return false;
 

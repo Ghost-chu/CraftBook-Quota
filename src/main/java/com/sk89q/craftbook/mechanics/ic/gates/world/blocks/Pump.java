@@ -1,18 +1,14 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.InventoryUtil;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
 
 /**
  * @author Me4502
@@ -56,7 +52,9 @@ public class Pump extends AbstractSelfTriggeredIC {
      * @return water found
      */
     public boolean scan() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         Block pump = getBackBlock();
         if (!InventoryUtil.doesBlockHaveInventory(pump.getRelative(0, 1, 0))) return false;
         InventoryHolder c = (InventoryHolder) pump.getRelative(0, 1, 0).getState();

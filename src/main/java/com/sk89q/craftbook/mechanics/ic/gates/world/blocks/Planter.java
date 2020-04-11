@@ -1,14 +1,10 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.ItemSyntax;
 import com.sk89q.craftbook.util.ItemUtil;
 import com.sk89q.craftbook.util.SearchArea;
@@ -85,7 +81,9 @@ public class Planter extends AbstractSelfTriggeredIC {
     }
 
     public boolean plant() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         if (item != null && !plantableItem(item)) return false;
 
         if (getBackBlock().getRelative(0, 1, 0).getType() == Material.CHEST || getBackBlock().getRelative(0, 1, 0).getType() == Material.TRAPPED_CHEST) {

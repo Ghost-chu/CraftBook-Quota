@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.AbstractCraftBookMechanic;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.util.BlockUtil;
@@ -54,6 +55,9 @@ public class BetterPlants extends AbstractCraftBookMechanic {
                 && ((Bisected) event.getBlock().getBlockData()).getHalf() == Bisected.Half.TOP
                 && event.getBlock().getRelative(0, -1, 0).getType() == Material.LARGE_FERN
                 && ((Bisected) event.getBlock().getRelative(0, -1, 0).getBlockData()).getHalf() == Bisected.Half.BOTTOM) {
+            if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                return;
+            }
             Bukkit.getScheduler().runTaskLater(CraftBookPlugin.inst(), () -> {
                 event.getBlock().getWorld().dropItemNaturally(BlockUtil.getBlockCentre(event.getBlock()), new ItemStack(Material.FERN));
                 event.getBlock().getRelative(0, -1, 0).setType(Material.FERN);

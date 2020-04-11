@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.dispenser;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.util.EntityUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,6 +31,9 @@ public class Fan extends Recipe {
 
     @Override
     public boolean doAction(Block block, ItemStack item, Vector velocity, BlockDispenseEvent event) {
+        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+            return true;
+        }
         Dispenser d = (Dispenser) block.getBlockData();
         BlockFace face = d.getFacing();
         Location dispenserLoc = block.getRelative(face).getLocation();

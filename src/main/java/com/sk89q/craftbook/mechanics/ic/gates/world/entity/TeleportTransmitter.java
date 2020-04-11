@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.entity;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
@@ -69,7 +70,9 @@ public class TeleportTransmitter extends AbstractSelfTriggeredIC {
     }
 
     public boolean sendPlayer() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         Player closest = null;
 
         for (Player e : area.getPlayersInArea()) {

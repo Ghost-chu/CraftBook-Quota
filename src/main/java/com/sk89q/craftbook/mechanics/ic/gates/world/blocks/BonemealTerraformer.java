@@ -1,14 +1,10 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.InventoryUtil;
 import com.sk89q.craftbook.util.SearchArea;
 import org.bukkit.Material;
@@ -68,7 +64,9 @@ public class BonemealTerraformer extends AbstractSelfTriggeredIC {
     }
 
     public void terraform() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return;
+        }
         Block b = area.getRandomBlockInArea();
 
         if(b == null) return;

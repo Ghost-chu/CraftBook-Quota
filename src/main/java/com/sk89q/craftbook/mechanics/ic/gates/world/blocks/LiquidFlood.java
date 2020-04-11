@@ -1,13 +1,9 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.ICUtil;
 import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;
@@ -48,7 +44,9 @@ public class LiquidFlood extends AbstractSelfTriggeredIC {
     }
 
     public void doStuff(ChipState chip) {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return;
+        }
         if (chip.getInput(0)) {
             for (int x = -radius.getBlockX() + 1; x < radius.getBlockX(); x++) {
                 for (int y = -radius.getBlockY() + 1; y < radius.getBlockY(); y++) {

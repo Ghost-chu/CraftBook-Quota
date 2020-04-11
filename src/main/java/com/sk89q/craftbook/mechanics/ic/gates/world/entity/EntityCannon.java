@@ -1,21 +1,16 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.entity;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
+import com.sk89q.craftbook.mechanics.ic.*;
+import com.sk89q.craftbook.util.EntityType;
+import com.sk89q.craftbook.util.LocationUtil;
+import com.sk89q.craftbook.util.RegexUtil;
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
-
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
-import com.sk89q.craftbook.util.EntityType;
-import com.sk89q.craftbook.util.LocationUtil;
-import com.sk89q.craftbook.util.RegexUtil;
 
 public class EntityCannon extends AbstractSelfTriggeredIC {
 
@@ -84,7 +79,9 @@ public class EntityCannon extends AbstractSelfTriggeredIC {
      * @return true if a entity was thrown.
      */
     protected boolean shoot() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         boolean resultBoolean = false;
 
         for (Entity e : LocationUtil.getNearbyEntities(location, CraftBookBukkitUtil.toVector(new Vector(3,3,3)))) {

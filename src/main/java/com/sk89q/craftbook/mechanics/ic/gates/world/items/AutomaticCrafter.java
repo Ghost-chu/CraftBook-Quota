@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.items;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
@@ -200,7 +201,10 @@ public class AutomaticCrafter extends AbstractSelfTriggeredIC implements PipeInp
 
         boolean ret = false;
         Block crafter = getBackBlock().getRelative(0, 1, 0);
-        if (crafter.getType() == Material.DISPENSER || crafter.getType() == Material.DROPPER) {
+        if (crafter.getType() == Material.DISPENSER || crafter.getType() == Material.DROPPER)
+            if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+                return false;
+            }{
             if (collect)
                 ret = collect((InventoryHolder) crafter.getState());
             if (craft)

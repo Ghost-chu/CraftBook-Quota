@@ -190,27 +190,37 @@ public class BetterPistons extends AbstractCraftBookMechanic {
 
         for(Tuple2<Types, Block> tups : types) {
             ChangedSign signState = CraftBookBukkitUtil.toChangedSign(tups.b);
-            if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
-                return;
-            }
+
             switch (tups.a) {
                 case CRUSH:
                     if (event.getNewCurrent() > event.getOldCurrent()) {
+                        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                            return;
+                        }
                         crush(event.getBlock(), piston, signState);
                     }
                     break;
                 case BOUNCE:
                     if (event.getNewCurrent() > event.getOldCurrent()) {
+                        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                            return;
+                        }
                         bounce(event.getBlock(), piston, signState);
                     }
                     break;
                 case SUPERSTICKY:
                     if (event.getNewCurrent() < event.getOldCurrent()) {
+                        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                            return;
+                        }
                         superSticky(event.getBlock(), piston, signState);
                     }
                     break;
                 case SUPERPUSH:
                     if (event.getNewCurrent() > event.getOldCurrent()) {
+                        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+                            return;
+                        }
                         superPush(event.getBlock(), piston, signState);
                     }
                     break;

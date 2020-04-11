@@ -16,13 +16,9 @@
 
 package com.sk89q.craftbook.mechanics.ic.gates.world.items;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractIC;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.ItemSyntax;
 import com.sk89q.craftbook.util.ItemUtil;
 import org.bukkit.Location;
@@ -79,6 +75,9 @@ public class ItemDispenser extends AbstractIC {
     public void trigger(ChipState chip) {
 
         if (chip.getInput(0)) {
+            if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+                return;
+            }
             Location loc = getBackBlock().getRelative(0, 1, 0).getLocation().add(0.5, 0.5, 0.5);
             int maxY = 10;
 

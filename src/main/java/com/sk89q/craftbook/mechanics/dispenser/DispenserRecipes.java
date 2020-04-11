@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.dispenser;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.AbstractCraftBookMechanic;
 import com.sk89q.craftbook.util.EventUtil;
 import com.sk89q.craftbook.util.ItemUtil;
@@ -67,11 +68,14 @@ public class DispenserRecipes extends AbstractCraftBookMechanic {
         if (event.getBlock().getType() != Material.DISPENSER) return;
         if (dispenseNew(event.getBlock(), event.getItem(), event.getVelocity(), event)) {
             event.setCancelled(true);
+
         }
     }
 
     private boolean dispenseNew(Block block, ItemStack item, Vector velocity, BlockDispenseEvent event) {
-
+        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+            return true;
+        }
         Dispenser dis = (Dispenser) block.getState();
         if (dis == null || dis.getInventory() == null || dis.getInventory().getContents() == null) return false;
         ItemStack[] stacks = dis.getInventory().getContents();

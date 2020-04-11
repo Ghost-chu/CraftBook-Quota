@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.dispenser;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,6 +32,9 @@ public class FireArrows extends Recipe {
 
     @Override
     public boolean doAction(Block block, ItemStack item, Vector velocity, BlockDispenseEvent event) {
+        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+            return true;
+        }
         Dispenser disp = (Dispenser) block.getBlockData();
         BlockFace face = disp.getFacing();
         Location location = block.getRelative(face).getLocation().add(0.5, 0.5, 0.5);

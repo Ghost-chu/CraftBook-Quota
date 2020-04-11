@@ -1,32 +1,23 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.items;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-
-import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BrewingStand;
-import org.bukkit.block.Chest;
-import org.bukkit.block.Dispenser;
-import org.bukkit.block.Furnace;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
+import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.mechanics.pipe.PipeRequestEvent;
 import com.sk89q.craftbook.util.ItemSyntax;
 import com.sk89q.craftbook.util.ItemUtil;
 import com.sk89q.craftbook.util.SignUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.block.*;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * @author Me4502
@@ -87,7 +78,9 @@ public class ContainerDispenser extends AbstractSelfTriggeredIC {
      * @return
      */
     protected boolean dispense() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         Block b = getBackBlock();
 
         int x = b.getX();

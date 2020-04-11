@@ -1,9 +1,13 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.entity;
 
-import java.util.Collections;
-
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
+import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
+import com.sk89q.craftbook.mechanics.ic.*;
+import com.sk89q.craftbook.util.EntityType;
 import com.sk89q.craftbook.util.ItemUtil;
+import com.sk89q.craftbook.util.SearchArea;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
@@ -15,11 +19,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
 
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import com.sk89q.craftbook.mechanics.ic.*;
-import com.sk89q.craftbook.util.EntityType;
-import com.sk89q.craftbook.util.SearchArea;
+import java.util.Collections;
 
 public class AnimalHarvester extends AbstractSelfTriggeredIC {
 
@@ -71,7 +71,9 @@ public class AnimalHarvester extends AbstractSelfTriggeredIC {
     }
 
     public boolean harvest() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         for (Entity entity : area.getEntitiesInArea(Collections.singletonList(EntityType.MOB_PEACEFUL))) {
             if (entity.isValid() && (entity instanceof Cow || entity instanceof Sheep)) {
                 if(!((Animals) entity).isAdult())

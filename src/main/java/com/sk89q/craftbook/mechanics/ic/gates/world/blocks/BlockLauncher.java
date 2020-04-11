@@ -1,6 +1,12 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
+import com.sk89q.craftbook.mechanics.ic.*;
+import com.sk89q.craftbook.util.ItemSyntax;
+import com.sk89q.craftbook.util.ItemUtil;
+import com.sk89q.craftbook.util.RegexUtil;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -8,18 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractIC;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
-import com.sk89q.craftbook.util.ItemSyntax;
-import com.sk89q.craftbook.util.ItemUtil;
-import com.sk89q.craftbook.util.RegexUtil;
 
 public class BlockLauncher extends AbstractIC {
 
@@ -68,7 +62,9 @@ public class BlockLauncher extends AbstractIC {
     }
 
     public void launch() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return;
+        }
         Block above = getBackBlock().getRelative(0, 1, 0);
         int timeout = 12;
         while (above.getType() != Material.AIR || timeout < 0 || above.getLocation().getY() >= 255) {

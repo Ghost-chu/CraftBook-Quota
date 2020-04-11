@@ -16,25 +16,19 @@
 
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.Locale;
-
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.BlockSyntax;
+import com.sk89q.craftbook.util.RegexUtil;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
-
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractIC;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
-import com.sk89q.craftbook.util.RegexUtil;
 import org.bukkit.block.data.BlockData;
+
+import java.util.Locale;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class FlexibleSetBlock extends AbstractIC {
 
@@ -130,7 +124,9 @@ public class FlexibleSetBlock extends AbstractIC {
 
     @Override
     public void trigger(ChipState chip) {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return;
+        }
         chip.setOutput(0, chip.getInput(0));
 
         boolean inp = chip.getInput(0);

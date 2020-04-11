@@ -1,14 +1,9 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.CraftBookPlugin;
-import com.sk89q.craftbook.mechanics.ic.AbstractIC;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.BlockSyntax;
 import com.sk89q.craftbook.util.LocationUtil;
 import com.sk89q.craftbook.util.RegexUtil;
@@ -61,7 +56,9 @@ public class BlockReplacer extends AbstractIC {
     }
 
     public boolean replaceBlocks(final boolean on, final Block block, final Set<Location> traversedBlocks) {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         if(traversedBlocks.size() > 15000)
             return true;
 

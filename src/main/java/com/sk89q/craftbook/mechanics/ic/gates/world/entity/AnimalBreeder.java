@@ -1,26 +1,16 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.entity;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
+import com.sk89q.craftbook.mechanics.ic.*;
 import com.sk89q.craftbook.util.InventoryUtil;
 import com.sk89q.craftbook.util.SearchArea;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Chicken;
-import org.bukkit.entity.Cow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.Wolf;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
@@ -84,7 +74,9 @@ public class AnimalBreeder extends AbstractSelfTriggeredIC {
     private EnumMap<EntityType, Entity> lastEntity = new EnumMap<>(EntityType.class);
 
     public boolean breed() {
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return false;
+        }
         lastEntity.clear();
         InventoryHolder inv = null;
 

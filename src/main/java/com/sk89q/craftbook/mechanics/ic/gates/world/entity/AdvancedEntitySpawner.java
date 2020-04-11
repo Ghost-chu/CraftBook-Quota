@@ -1,10 +1,11 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.entity;
 
-import java.util.Locale;
-
+import com.mcsunnyside.craftbookoptimize.Limiter;
+import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.bukkit.util.CraftBookBukkitUtil;
+import com.sk89q.craftbook.mechanics.ic.*;
+import com.sk89q.craftbook.util.*;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -14,20 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import com.sk89q.craftbook.ChangedSign;
-import com.sk89q.craftbook.mechanics.ic.AbstractIC;
-import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
-import com.sk89q.craftbook.mechanics.ic.ChipState;
-import com.sk89q.craftbook.mechanics.ic.IC;
-import com.sk89q.craftbook.mechanics.ic.ICFactory;
-import com.sk89q.craftbook.mechanics.ic.ICVerificationException;
-import com.sk89q.craftbook.mechanics.ic.RestrictedIC;
-import com.sk89q.craftbook.util.EntityUtil;
-import com.sk89q.craftbook.util.ICUtil;
-import com.sk89q.craftbook.util.ItemSyntax;
-import com.sk89q.craftbook.util.ItemUtil;
-import com.sk89q.craftbook.util.RegexUtil;
-import com.sk89q.craftbook.util.SignUtil;
+import java.util.Locale;
 
 public class AdvancedEntitySpawner extends AbstractIC {
 
@@ -80,7 +68,9 @@ public class AdvancedEntitySpawner extends AbstractIC {
 
         if(!location.getChunk().isLoaded())
             return;
-
+        if(!Limiter.ping(getBackBlock().getLocation(),this.getClass())){
+            return;
+        }
         if (!chip.getInput(0)) return;
         Block left = SignUtil.getLeftBlock(CraftBookBukkitUtil.toSign(getSign()).getBlock());
         ChangedSign effectSign = null;
