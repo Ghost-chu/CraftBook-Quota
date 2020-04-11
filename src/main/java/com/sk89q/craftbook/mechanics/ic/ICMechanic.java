@@ -28,17 +28,12 @@ import com.sk89q.craftbook.util.ICUtil;
 import com.sk89q.craftbook.util.ICUtil.LocationCheckType;
 import com.sk89q.craftbook.util.RegexUtil;
 import com.sk89q.craftbook.util.SignUtil;
-import com.sk89q.craftbook.util.events.SelfTriggerPingEvent;
-import com.sk89q.craftbook.util.events.SelfTriggerThinkEvent;
-import com.sk89q.craftbook.util.events.SelfTriggerUnregisterEvent;
+import com.sk89q.craftbook.util.events.*;
 import com.sk89q.craftbook.util.events.SelfTriggerUnregisterEvent.UnregisterReason;
-import com.sk89q.craftbook.util.events.SignClickEvent;
-import com.sk89q.craftbook.util.events.SourcedBlockRedstoneEvent;
 import com.sk89q.util.yaml.YAMLProcessor;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -302,6 +297,10 @@ public class ICMechanic extends AbstractCraftBookMechanic {
     public void onThink(SelfTriggerThinkEvent event) {
 
         if(!EventUtil.passesFilter(event)) return;
+
+        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+            return;
+        }
 
         final Object[] icData = setupIC(event.getBlock(), true);
 

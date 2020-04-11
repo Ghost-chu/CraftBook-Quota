@@ -2,25 +2,24 @@ package com.mcsunnyside.craftbookoptimize;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.MapMaker;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Limiter {
-    static public Cache<Location,Integer> cache = CacheBuilder.newBuilder().maximumSize(2000)
+    static public Cache<Chunk,Integer> chunkCache = CacheBuilder.newBuilder()
                                                 .expireAfterWrite(60, TimeUnit.SECONDS)
                                                 .build();
-    static public int limitPerMintues = 40;
-
+    static public int limitPerMintues = 400;
     public static boolean ping(Location location, Class<?> type){
-        Integer times = cache.getIfPresent(location);
+        Chunk chunk = location.getChunk();
+        Integer times = chunkCache.getIfPresent(chunk);
         if(times == null){
             times = 0;
         }
         times ++;
-        cache.put(location, times);
+        chunkCache.put(chunk, times);
         return times <= limitPerMintues;
     }
 
