@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Limiter {
     static public Cache<Chunk,Integer> chunkCache = CacheBuilder.newBuilder()
-                                                .expireAfterWrite(60, TimeUnit.SECONDS)
+                                                .expireAfterWrite(1, TimeUnit.MINUTES)
                                                 .build();
     static public int limitPerMintues = 400;
     public static boolean ping(Location location, Class<?> type){

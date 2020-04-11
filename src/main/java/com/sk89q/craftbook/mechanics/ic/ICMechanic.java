@@ -298,9 +298,9 @@ public class ICMechanic extends AbstractCraftBookMechanic {
 
         if(!EventUtil.passesFilter(event)) return;
 
-        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
-            return;
-        }
+//        if(!Limiter.ping(event.getBlock().getLocation(),this.getClass())){
+//            return;
+//        }
 
         final Object[] icData = setupIC(event.getBlock(), true);
 
