@@ -1,6 +1,7 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
 import com.google.common.collect.Lists;
+import com.mcsunnyside.craftbookoptimize.McMMOCompatible;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.mechanics.ic.AbstractICFactory;
 import com.sk89q.craftbook.mechanics.ic.ConfigurableIC;
@@ -54,7 +55,9 @@ public class SetBlockChest extends SetBlock {
 
         if (force || body.getRelative(toPlace).getType() == Material.AIR) {
             if (takeFromChest(body.getRelative(chest), item.getBlockType().getItemType())) {
-                body.getRelative(toPlace).setBlockData(BukkitAdapter.adapt(item));
+                Block targetBlock = body.getRelative(toPlace);
+                targetBlock.setBlockData(BukkitAdapter.adapt(item));
+                McMMOCompatible.setBlockPlace(targetBlock);
             }
         }
     }

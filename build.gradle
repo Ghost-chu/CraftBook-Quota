@@ -29,6 +29,7 @@ buildscript {
     }
 }
 
+
 if (!project.hasProperty("artifactory_contextUrl")) ext.artifactory_contextUrl = "http://localhost"
 if (!project.hasProperty("artifactory_user")) ext.artifactory_user = "guest"
 if (!project.hasProperty("artifactory_password")) ext.artifactory_password = ""
@@ -104,6 +105,7 @@ allprojects {
         compile 'com.comphenix.protocol:ProtocolLib:4.5.0'
         compile 'fr.neatmonster:nocheatplus:3.15.1-RC'
 		compile 'org.bstats:bstats-bukkit:1.7'
+        compile fileTree(dir: 'libs', includes: ['*.jar'])
         testCompile group: 'junit', name: 'junit', version: '4.12'
         testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.1'
         testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.1'
@@ -190,4 +192,5 @@ allprojects {
             exclude 'plugin.yml'
         }
     }
+
 }
