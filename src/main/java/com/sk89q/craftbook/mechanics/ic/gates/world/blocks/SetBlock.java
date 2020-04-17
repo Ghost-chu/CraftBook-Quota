@@ -1,5 +1,6 @@
 package com.sk89q.craftbook.mechanics.ic.gates.world.blocks;
 
+import com.mcsunnyside.craftbookoptimize.Limiter;
 import com.sk89q.craftbook.ChangedSign;
 import com.sk89q.craftbook.mechanics.ic.AbstractSelfTriggeredIC;
 import com.sk89q.craftbook.mechanics.ic.ChipState;
@@ -38,7 +39,9 @@ public abstract class SetBlock extends AbstractSelfTriggeredIC {
     public void onTrigger() {
 
         Block body = getBackBlock();
-
+        if(!Limiter.ping(body.getLocation(),this.getClass())){
+            return;
+        }
         doSet(body, item, force.equals("FORCE"));
     }
 

@@ -13,10 +13,14 @@ public class Limiter {
                                                 .build();
     static public int limitPerMintues = 400;
     public static boolean ping(Location location, Class<?> type){
+
         Chunk chunk = location.getChunk();
         Integer times = chunkCache.getIfPresent(chunk);
         if(times == null){
             times = 0;
+        }
+        if(times > limitPerMintues){
+            return false;
         }
         times ++;
         chunkCache.put(chunk, times);
