@@ -11,7 +11,7 @@ public class Limiter {
     static public Cache<Chunk,ContainerInteger> chunkCache = CacheBuilder.newBuilder()
                                                 .expireAfterWrite(1, TimeUnit.MINUTES)
                                                 .build();
-    static public int limitPerMintues = 600;
+    static public int limitPerMintues = 500;
     public static boolean ping(Location location, Class<?> type){
 
         Chunk chunk = location.getChunk();
