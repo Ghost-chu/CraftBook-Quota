@@ -8,23 +8,39 @@ import org.bukkit.Location;
 import java.util.concurrent.TimeUnit;
 
 public class Limiter {
-    static public Cache<Chunk,Integer> chunkCache = CacheBuilder.newBuilder()
+    static public Cache<Chunk,ContainerInteger> chunkCache = CacheBuilder.newBuilder()
                                                 .expireAfterWrite(1, TimeUnit.MINUTES)
                                                 .build();
-    static public int limitPerMintues = 400;
+    static public int limitPerMintues = 600;
     public static boolean ping(Location location, Class<?> type){
 
         Chunk chunk = location.getChunk();
-        Integer times = chunkCache.getIfPresent(chunk);
+        ContainerInteger times = chunkCache.getIfPresent(chunk);
         if(times == null){
-            times = 0;
-        }
-        if(times > limitPerMintues){
+            times = new ContainerInteger();
+            times.update();
+            chunkCache.put(chunk, times);
             return false;
         }
-        times ++;
-        chunkCache.put(chunk, times);
-        return times <= limitPerMintues;
+        if(times.getNum() > limitPerMintues){
+            return false;
+        }
+        times.update();
+        return times.getNum() <= limitPerMintues;
     }
 
+}
+class ContainerInteger{
+    int num = 0;
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+    public void update(){
+        this.num ++;
+    }
 }
